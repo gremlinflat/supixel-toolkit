@@ -22,7 +22,7 @@ def upscale_image_with_realesr(input_file, output_file, scale_factor):
     try:
         # run bash command on server side synchronously
         print("------bash command started------")
-        os.system(f"python ../../image-restorer-flask/realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i {input_file} -o {output_file} --face_enhance")
+        os.system(f"python3 ../realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i ../supixel-toolkit/{input_file} -o ../supixel-toolkit/{output_file} --face_enhance")
         print("------bash command finished------")
         print(f"Image {input_file} upscaled by {scale_factor}X and saved to {output_file}")
     except Exception as e:
@@ -101,6 +101,9 @@ if __name__ == "__main__":
                 downscale_image(path, output_path, scale_factor)
 
     if reverse_generate:
+        # make the output folder if it doesn't exist
+        output_folder = os.path.join(output_folder, "_upscaled")
+        os.makedirs(output_folder, exist_ok=True)
         for filename in os.listdir(output_folder):
             path = os.path.join(output_folder, filename)
             if os.path.isfile(path):
@@ -110,7 +113,10 @@ if __name__ == "__main__":
                     output_path = output_path.replace(" ", "_")
                     upscale_image_with_realesr(path, output_path, scale_factor)
 
-    if args.obfuscate:
-        make_obfuscared_pair(input_folder, output_folder, output_folder)
+        if args.obfuscate:
+            # make obfuscared folder 
+            obfuscared_folder = os.path.join(output_folder, "_obfuscared")
+            os.makedirs(obfuscared_folder, exist_ok=True)
+            make_obfuscared_pair(input_folder, output_folder, output_folder)
 
 
