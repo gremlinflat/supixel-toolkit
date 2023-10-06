@@ -97,6 +97,7 @@ if __name__ == "__main__":
             _, file_extension = os.path.splitext(path)
             if file_extension.lower() in extensions:
                 output_path = os.path.join(output_folder, filename)
+                output_path = output_path.replace(" ", "_")
                 downscale_image(path, output_path, scale_factor)
 
     if reverse_generate:
@@ -106,6 +107,7 @@ if __name__ == "__main__":
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
                     output_path = os.path.join(output_folder, filename)
+                    output_path = output_path.replace(" ", "_")
                     upscale_image_with_realesr(path, output_path, scale_factor)
 
     if args.obfuscate:
