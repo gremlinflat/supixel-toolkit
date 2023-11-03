@@ -74,8 +74,8 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", help="Output folder to save downscaled images")
     parser.add_argument("-s", "--scale", type=float, help="Scale factor (e.g., 0.4 for 40%)")
     parser.add_argument("-e", "--extensions", default=".jpg,.jpeg,.png", help="Comma-separated list of image extensions")
-    parser.add_argument("--reverse-generate", default=False, help="Run realesr generator on the output folder")
-    parser.add_argument("--generate-pair", default=False, help="Generate obfuscared pair")
+    parser.add_argument("-r", default=False, help="Run realesr generator on the output folder")
+    parser.add_argument("-g", default=False, help="Generate obfuscared pair")
     args = parser.parse_args()
 
     if not args.input or not args.output or not args.scale:
