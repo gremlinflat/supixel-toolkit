@@ -55,13 +55,13 @@ def make_obfuscared_pair(real_folder, generated_folder, output_folder):
         print(f"Error: {str(e)}")
                 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Upscale images in a folder.")
+    parser = argparse.ArgumentParser(description="obfuscate pair of image in a folder.")
     parser.add_argument("-ir", "--inputr", help="Input folder containing real images")
     parser.add_argument("-ig", "--inputg", help="Input folder containing generated images")
     parser.add_argument("-o", "--output", help="Output folder to save obfuscated pair images")
     args = parser.parse_args()
 
-    if not args.input or not args.output or not args.scale:
+    if not args.inputr or not args.inputg or not args.output:
         print("Missing required arguments")
         sys.exit(1)
     
