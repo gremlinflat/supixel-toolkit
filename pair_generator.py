@@ -18,13 +18,13 @@ def downscale_image(input_file, output_file, scale_factor):
     except Exception as e:
         print(f"Error: {str(e)}")
 
-def upscale_image_with_realesr(input_file, output_file, scale_factor):
+def upscale_image_with_realesr(input_file, output_folder, scale_factor):
     try:
         # run bash command on server side synchronously
         print("------bash command started------")
-        os.system(f"python3 ../realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i ../supixel-toolkit/{input_file} -o ../supixel-toolkit/{output_file} --face_enhance -s {scale_factor}")
+        os.system(f"python3 ../realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i ../supixel-toolkit/{input_file} -o ../supixel-toolkit/{output_folder} --face_enhance -s {scale_factor}")
         print("------bash command finished------")
-        print(f"Image {input_file} upscaled by {scale_factor}X and saved to {output_file}")
+        print(f"Image {input_file} upscaled by {scale_factor}X and saved to {output_folder}")
     except Exception as e:
         print(f"Error: {str(e)}")
 
@@ -48,6 +48,9 @@ def make_obfuscared_pair(real_folder, generated_folder, output_folder):
                 # Generate a unique filename using UUID
                 new_real_filename = str(uuid.uuid4()) + file_extension
                 new_generated_filename = str(uuid.uuid4()) + file_extension
+
+                # remove _out from filename in generated path
+                generated_path = generated_path.replace("_out", "")
 
                 # copy and rename those two files into output folder
                 new_real_path = os.path.join(output_folder, new_real_filename)
@@ -115,8 +118,7 @@ if __name__ == "__main__":
             if os.path.isfile(path):
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
-                    save_path = os.path.join(generate_folder, filename)
-                    upscale_image_with_realesr(path, save_path, 1/scale_factor)
+                    upscale_image_with_realesr(path, generate_folder, 1/scale_factor)
 
         # if obfuscate:
         #     # make obfuscared folder 
