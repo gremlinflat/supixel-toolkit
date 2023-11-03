@@ -106,7 +106,7 @@ if __name__ == "__main__":
         generate_folder = output_folder + "_upscaled"
         os.makedirs(generate_folder, exist_ok=True)
         for filename in os.listdir(output_folder):
-            path = os.path.join(output_folders, filename)
+            path = os.path.join(output_folder, filename)
             if os.path.isfile(path):
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
