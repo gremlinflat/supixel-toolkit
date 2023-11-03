@@ -22,7 +22,7 @@ def upscale_image_with_realesr(input_file, output_file, scale_factor):
     try:
         # run bash command on server side synchronously
         print("------bash command started------")
-        os.system(f"python3 ../realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i ../supixel-toolkit/{input_file} -o ../supixel-toolkit/{output_file} --face_enhance")
+        os.system(f"python3 ../realesrgan/inference_realesrgan.py -n realesr-general-x4v3 -i ../supixel-toolkit/{input_file} -o ../supixel-toolkit/{output_file} --face_enhance -s {scale_factor}")
         print("------bash command finished------")
         print(f"Image {input_file} upscaled by {scale_factor}X and saved to {output_file}")
     except Exception as e:
@@ -111,7 +111,7 @@ if __name__ == "__main__":
                 if file_extension.lower() in extensions:
                     output_path = os.path.join(output_folder, filename)
                     output_path = output_path.replace(" ", "_")
-                    upscale_image_with_realesr(path, output_path, scale_factor)
+                    upscale_image_with_realesr(path, output_path, 1/scale_factor)
 
         if args.obfuscate:
             # make obfuscared folder 
