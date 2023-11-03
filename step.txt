@@ -1,0 +1,7 @@
+
+# original -> feed_model (0.5) too big ====> downscaler
+
+# feed_model -> downscale (0.5) feed to model but still good quality ====> downscaler
+# downscaled -> realesr (2) ===> pair_gen
+
+# compare feed_model and realesr

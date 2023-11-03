@@ -5,19 +5,6 @@ from PIL import Image
 import uuid
 import json
 
-def downscale_image(input_file, output_file, scale_factor):
-    try:
-        with Image.open(input_file) as img:
-            width, height = img.size
-            new_width = int(width * scale_factor)
-            new_height = int(height * scale_factor)
-            
-            resized_img = img.resize((new_width, new_height))
-            resized_img.save(output_file)
-            print(f"Downscaled {input_file} to {new_width}x{new_height} and saved to {output_file}")
-    except Exception as e:
-        print(f"Error: {str(e)}")
-
 def upscale_image_with_realesr(input_file, output_folder, scale_factor):
     try:
         # run bash command on server side synchronously
@@ -83,8 +70,6 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", help="Output folder to save downscaled images")
     parser.add_argument("-s", "--scale", type=float, help="Scale factor (e.g., 0.4 for 40%)")
     parser.add_argument("-e", "--extensions", default=".jpg,.jpeg,.png", help="Comma-separated list of image extensions")
-    parser.add_argument("-r", "--reverse",  default=False, help="Run realesr generator on the output folder")
-    parser.add_argument("-g", "--generate", default=False, help="Generate obfuscared pair")
     args = parser.parse_args()
 
     if not args.input or not args.output or not args.scale:
@@ -95,40 +80,16 @@ if __name__ == "__main__":
     output_folder = args.output
     scale_factor = args.scale
     extensions = args.extensions.split(",")
-    reverse_generate = args.reverse
-    obfuscate = args.generate
 
-    # make the output folder if it doesn't exist
-    os.makedirs(output_folder, exist_ok=True)
-
-    for filename in os.listdir(input_folder):
-        path = os.path.join(input_folder, filename)
+    generated_folder = output_folder + "_upscaled_by_ai"
+    os.makedirs(generated_folder, exist_ok=True)
+    for filename in os.listdir(output_folder):
+        path = os.path.join(output_folder, filename)
         if os.path.isfile(path):
             _, file_extension = os.path.splitext(path)
             if file_extension.lower() in extensions:
-                output_path = os.path.join(output_folder, filename)
-                output_path = output_path.replace(" ", "_")
-                downscale_image(path, output_path, scale_factor)
+                upscale_image_with_realesr(path, generated_folder, 1/scale_factor)
 
-    if True:
-        # make the output folder if it doesn't exist
-        generate_folder = output_folder + "_upscaled"
-        os.makedirs(generate_folder, exist_ok=True)
-        for filename in os.listdir(output_folder):
-            path = os.path.join(output_folder, filename)
-            if os.path.isfile(path):
-                _, file_extension = os.path.splitext(path)
-                if file_extension.lower() in extensions:
-                    upscale_image_with_realesr(path, generate_folder, 1/scale_factor)
-
-        # if obfuscate:
-        #     # make obfuscared folder 
-        upscaled_folder = output_folder + "_upscaled"
-        obfuscared_folder = output_folder + "_obfuscared"
-        os.makedirs(obfuscared_folder, exist_ok=True)
-        print("output_folder: ", output_folder)
-        print("upscaled_folder: ", upscaled_folder)
-        print("obfuscared_folder: ", obfuscared_folder)            
-        make_obfuscared_pair(output_folder, upscaled_folder, obfuscared_folder)
-
-
+    obfuscared_folder = output_folder + "_obfuscared"
+    os.makedirs(obfuscared_folder, exist_ok=True)         
+    make_obfuscared_pair(output_folder, generated_folder, obfuscared_folder)
