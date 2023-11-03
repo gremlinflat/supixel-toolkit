@@ -29,6 +29,11 @@ def upscale_image_with_realesr(input_file, output_file, scale_factor):
         print(f"Error: {str(e)}")
 
 def make_obfuscared_pair(real_folder, generated_folder, output_folder):
+    print("------make_obfuscared_pair------")
+    print("real_folder: ", real_folder)
+    print("generated_folder: ", generated_folder)
+    print("output_folder: ", output_folder)
+    print("------make_obfuscared_pair------")
     try:
         os.makedirs(output_folder, exist_ok=True)
         json_file = []  # Create an empty list to store image data
@@ -118,7 +123,10 @@ if __name__ == "__main__":
         #     # make obfuscared folder 
         upscaled_folder = output_folder + "_upscaled"
         obfuscared_folder = output_folder + "_obfuscared"
-        os.makedirs(obfuscared_folder, exist_ok=True)            
+        os.makedirs(obfuscared_folder, exist_ok=True)
+        print("output_folder: ", output_folder)
+        print("upscaled_folder: ", upscaled_folder)
+        print("obfuscared_folder: ", obfuscared_folder)            
         make_obfuscared_pair(output_folder, upscaled_folder, obfuscared_folder)
 
 
