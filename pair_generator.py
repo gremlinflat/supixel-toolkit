@@ -101,24 +101,24 @@ if __name__ == "__main__":
                 output_path = output_path.replace(" ", "_")
                 downscale_image(path, output_path, scale_factor)
 
-    if reverse_generate:
+    if True:
         # make the output folder if it doesn't exist
-        output_folder = os.path.join(output_folder, "_upscaled")
-        os.makedirs(output_folder, exist_ok=True)
-        for filename in os.listdir(output_folder):
-            path = os.path.join(output_folder, filename)
+        generate_folder = output_folder + "_upscaled"
+        os.makedirs(generate_folder, exist_ok=True)
+        for filename in os.listdir(generate_folder):
+            path = os.path.join(generate_folder, filename)
             if os.path.isfile(path):
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
-                    output_path = os.path.join(output_folder, filename)
-                    output_path = output_path.replace(" ", "_")
-                    upscale_image_with_realesr(path, output_path, 1/scale_factor)
+                    generate_folder = os.path.join(generate_folder, filename)
+                    generate_folder = generate_folder.replace(" ", "_")
+                    upscale_image_with_realesr(path, generate_folder, 1/scale_factor)
 
-        if obfuscate:
-            # make obfuscared folder 
-            upscaled_folder = os.path.join(output_folder, "_upscaled")
-            obfuscared_folder = os.path.join(output_folder, "_obfuscared")
-            os.makedirs(obfuscared_folder, exist_ok=True)
-            make_obfuscared_pair(output_folder, upscaled_folder, obfuscared_folder)
+        # if obfuscate:
+        #     # make obfuscared folder 
+        upscaled_folder = output_folder + "_upscaled"
+        obfuscared_folder = output_folder + "_obfuscared"
+        os.makedirs(obfuscared_folder, exist_ok=True)            
+        make_obfuscared_pair(output_folder, upscaled_folder, obfuscared_folder)
 
 
