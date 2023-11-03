@@ -110,6 +110,7 @@ if __name__ == "__main__":
             if os.path.isfile(path):
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
+                    save_path = path
                     save_path = save_path.replace(" ", "_")
                     upscale_image_with_realesr(path, generate_folder, 1/scale_factor)
 
