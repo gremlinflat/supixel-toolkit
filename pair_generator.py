@@ -110,9 +110,8 @@ if __name__ == "__main__":
             if os.path.isfile(path):
                 _, file_extension = os.path.splitext(path)
                 if file_extension.lower() in extensions:
-                    save_path = os.path.join(generate_folder, filename)
                     save_path = save_path.replace(" ", "_")
-                    upscale_image_with_realesr(path, save_path, 1/scale_factor)
+                    upscale_image_with_realesr(path, generate_folder, 1/scale_factor)
 
         # if obfuscate:
         #     # make obfuscared folder 
