@@ -74,8 +74,8 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", help="Output folder to save downscaled images")
     parser.add_argument("-s", "--scale", type=float, help="Scale factor (e.g., 0.4 for 40%)")
     parser.add_argument("-e", "--extensions", default=".jpg,.jpeg,.png", help="Comma-separated list of image extensions")
-    parser.add_argument("--reverse-generate", default=False, help="Run realesr generator on the output folder")
-    parser.add_argument("--generate-pair", default=False, help="Generate obfuscared pair")
+    parser.add_argument("-r", "--reverse",  default=False, help="Run realesr generator on the output folder")
+    parser.add_argument("-g", "--generate", default=False, help="Generate obfuscared pair")
     args = parser.parse_args()
 
     if not args.input or not args.output or not args.scale:
@@ -86,7 +86,8 @@ if __name__ == "__main__":
     output_folder = args.output
     scale_factor = args.scale
     extensions = args.extensions.split(",")
-    reverse_generate = args.reverse_generate
+    reverse_generate = args.reverse
+    obfuscate = args.generate
 
     # make the output folder if it doesn't exist
     os.makedirs(output_folder, exist_ok=True)
@@ -113,7 +114,7 @@ if __name__ == "__main__":
                     output_path = output_path.replace(" ", "_")
                     upscale_image_with_realesr(path, output_path, 1/scale_factor)
 
-        if args.obfuscate:
+        if obfuscate:
             # make obfuscared folder 
             upscaled_folder = os.path.join(output_folder, "_upscaled")
             obfuscared_folder = os.path.join(output_folder, "_obfuscared")
