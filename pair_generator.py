@@ -77,19 +77,18 @@ if __name__ == "__main__":
         sys.exit(1)
     
     input_folder = args.input
-    output_folder = args.output
     scale_factor = args.scale
     extensions = args.extensions.split(",")
 
-    generated_folder = output_folder + "_upscaled_by_ai"
+    generated_folder = input_folder + "_upscaled_by_ai"
     os.makedirs(generated_folder, exist_ok=True)
-    for filename in os.listdir(output_folder):
-        path = os.path.join(output_folder, filename)
+    for filename in os.listdir(input_folder):
+        path = os.path.join(input_folder, filename)
         if os.path.isfile(path):
             _, file_extension = os.path.splitext(path)
             if file_extension.lower() in extensions:
                 upscale_image_with_realesr(path, generated_folder, 1/scale_factor)
 
-    obfuscared_folder = output_folder + "_obfuscared"
+    obfuscared_folder = input_folder + "_obfuscared"
     os.makedirs(obfuscared_folder, exist_ok=True)         
-    make_obfuscared_pair(output_folder, generated_folder, obfuscared_folder)
+    make_obfuscared_pair(input_folder, generated_folder, obfuscared_folder)
