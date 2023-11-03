@@ -115,8 +115,9 @@ if __name__ == "__main__":
 
         if args.obfuscate:
             # make obfuscared folder 
+            upscaled_folder = os.path.join(output_folder, "_upscaled")
             obfuscared_folder = os.path.join(output_folder, "_obfuscared")
             os.makedirs(obfuscared_folder, exist_ok=True)
-            make_obfuscared_pair(input_folder, output_folder, output_folder)
+            make_obfuscared_pair(output_folder, upscaled_folder, obfuscared_folder)
 
 
