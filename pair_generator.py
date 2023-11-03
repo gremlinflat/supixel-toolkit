@@ -39,7 +39,11 @@ def make_obfuscared_pair(real_folder, generated_folder, output_folder):
         json_file = []  # Create an empty list to store image data
         for filename in os.listdir(real_folder):
             real_path = os.path.join(real_folder, filename)
-            generated_path = os.path.join(generated_folder, filename)
+            
+            # add _out in generated filename before extension
+            f_gen, f_ext_gen = os.path.splitext(filename)
+            f_gen += "_out" + f_ext_gen
+            generated_path = os.path.join(generated_folder, f_gen)
 
             if os.path.isfile(real_path) and os.path.isfile(generated_path):
                 # get filename extension
@@ -48,9 +52,6 @@ def make_obfuscared_pair(real_folder, generated_folder, output_folder):
                 # Generate a unique filename using UUID
                 new_real_filename = str(uuid.uuid4()) + file_extension
                 new_generated_filename = str(uuid.uuid4()) + file_extension
-
-                # remove _out from filename in generated path
-                generated_path = generated_path.replace("_out", "")
 
                 # copy and rename those two files into output folder
                 new_real_path = os.path.join(output_folder, new_real_filename)
